@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1v1 Tetris</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="menu">
+        <input type="text" id="roomName" placeholder="Enter room name">
+        <button id="createRoom">Create Room</button>
+        <button id="joinRoom">Join Room</button>
+    </div>
+    <div class="game-container" style="display: none;">
+        <div id="game-status">
+            <canvas id="tetris"></canvas>
+            <canvas id="opponent"></canvas>
+        </div>
+        <div id="opponent-status">
+            <canvas id="opponent-small"></canvas>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
