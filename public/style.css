@@ -13,6 +13,11 @@ body {
     align-items: center;
 }
 
+#statusMessage {
+    color: #fff;
+    margin-top: 10px;
+}
+
 .game-container {
     display: flex;
 }
