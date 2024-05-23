@@ -19,32 +19,39 @@ const gameContainer = document.querySelector('.game-container');
 const roomNameInput = document.getElementById('roomName');
 const createRoomButton = document.getElementById('createRoom');
 const joinRoomButton = document.getElementById('joinRoom');
+const statusMessage = document.getElementById('statusMessage');
 
 createRoomButton.addEventListener('click', () => {
-    const roomName = roomNameInput.value;
-    socket.emit('createRoom', roomName);
+    const roomName = roomNameInput.value.trim();
+    if (roomName) {
+        socket.emit('createRoom', roomName);
+        statusMessage.textContent = `Creating room ${roomName}...`;
+    }
 });
 
 joinRoomButton.addEventListener('click', () => {
-    const roomName = roomNameInput.value;
-    socket.emit('joinRoom', roomName);
+    const roomName = roomNameInput.value.trim();
+    if (roomName) {
+        socket.emit('joinRoom', roomName);
+        statusMessage.textContent = `Joining room ${roomName}...`;
+    }
 });
 
 socket.on('roomExists', (roomName) => {
-    alert(`Room ${roomName} already exists!`);
+    statusMessage.textContent = `Room ${roomName} already exists.`;
 });
 
 socket.on('roomCreated', (roomName) => {
-    alert(`Room ${roomName} created! Waiting for opponent...`);
+    statusMessage.textContent = `Room ${roomName} created! Waiting for opponent...`;
 });
 
 socket.on('roomJoined', (roomName) => {
-    alert(`Joined room ${roomName}! Starting game...`);
+    statusMessage.textContent = `Joined room ${roomName}! Starting game...`;
     startGame();
 });
 
 socket.on('roomFull', (roomName) => {
-    alert(`Room ${roomName} is full!`);
+    statusMessage.textContent = `Room ${roomName} is full!`;
 });
 
 socket.on('startGame', () => {
@@ -62,7 +69,7 @@ socket.on('move', (data) => {
 
 socket.on('gameOver', () => {
     alert('Game Over!');
-    startGame();
+    resetGame();
 });
 
 socket.on('opponentLeft', () => {
@@ -120,15 +127,13 @@ function merge(arena, player) {
 
 function playerReset() {
     const pieces = 'ILJOTSZ';
-    player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
     player.pos.y = 0;
-    player.pos.x = (arena[0].length / 2 | 0) -
-                   (player.matrix[0].length / 2 | 0);
+    player.pos.x = ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
         player.score = 0;
         updateScore();
-        socket.emit('gameOver');
     }
 }
 
