@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #000;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-container {
+    display: flex;
+}
+
+#game-status {
+    position: relative;
+}
+
+canvas {
+    border: 1px solid #fff;
+    background: #000;
+}
+
+#opponent-status {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#opponent-small {
+    width: 120px;
+    height: 200px;
+}
